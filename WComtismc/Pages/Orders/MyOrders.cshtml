@@ -1,0 +1,47 @@
+@page
+@model WComtismc.Pages.Orders.MyOrdersModel
+@using WComtismc.Helpers
+@{
+    ViewData["Title"] = "طلباتي";
+}
+
+<div class="inner-page">
+    <div class="container">
+        <div class="section-label">حسابي</div>
+        <h1 class="section-title">طلباتي</h1>
+
+        @if (Model.Orders.Count == 0)
+        {
+            <div class="empty-lux">
+                <span class="empty-lux-icon">📦</span>
+                <h3>لا توجد طلبات</h3>
+                <a asp-page="/Products/Index" class="btn-lux">ابدئي التسوق</a>
+            </div>
+        }
+        else
+        {
+            @foreach (var order in Model.Orders)
+            {
+                <div class="order-lux-card">
+                    <div class="order-lux-head">
+                        <div>
+                            <strong>طلب #@order.Id.ToString()[..8].ToUpper()</strong>
+                            <small dir="ltr">@order.CreatedAt.ToString("yyyy/MM/dd")</small>
+                        </div>
+                        <span class="status-pill">@StoreLabels.GetStatusLabel(order.Status)</span>
+                    </div>
+                    <div class="order-lux-items">
+                        @foreach (var item in order.Items)
+                        {
+                            <span>@item.Name × @item.Quantity</span>
+                        }
+                    </div>
+                    <div class="order-lux-foot">
+                        <span class="lux-price">@order.Total.ToString("0.##") ر.س</span>
+                        <a asp-page="/Orders/Confirmation" asp-route-id="@order.Id" class="link-gold">التفاصيل</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

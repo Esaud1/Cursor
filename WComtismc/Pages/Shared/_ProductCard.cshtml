@@ -1,0 +1,29 @@
+@model WComtismc.Models.Product
+
+<article class="lux-card">
+    <a asp-page="/Products/Details" asp-route-id="@Model.Id" class="lux-card-media">
+        <img src="@Model.ImageUrl" alt="@Model.NameAr" loading="lazy" />
+        <div class="lux-card-overlay">
+            @if (Model.DiscountPercent > 0)
+            {
+                <span class="lux-tag lux-tag-sale">-@Model.DiscountPercent%</span>
+            }
+            @if (Model.IsNew)
+            {
+                <span class="lux-tag lux-tag-new">جديد</span>
+            }
+            <div class="lux-card-info">
+                <span class="lux-brand">@Model.Brand</span>
+                <h3>@Model.NameAr</h3>
+                <div class="lux-meta">
+                    <span class="lux-rating">★ @Model.Rating.ToString("0.0")</span>
+                    <span class="lux-price">@Model.Price.ToString("0.##") <small>ر.س</small></span>
+                </div>
+            </div>
+        </div>
+    </a>
+    <form method="post" asp-page="/Cart/Index" asp-page-handler="Add" class="lux-card-action">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <button type="submit" class="btn-lux">+ أضف للسلة</button>
+    </form>
+</article>

@@ -1,0 +1,75 @@
+@page
+@model WComtismc.Pages.Checkout.IndexModel
+@inject WComtismc.Services.ICartService CartService
+@{
+    ViewData["Title"] = "إتمام الشراء";
+    var items = CartService.GetItems();
+}
+
+<div class="inner-page">
+    <div class="container">
+        <div class="section-label">الدفع</div>
+        <h1 class="section-title">إتمام الشراء</h1>
+
+        <div class="checkout-layout">
+            <form method="post" class="panel-lux">
+                <div asp-validation-summary="ModelOnly" class="alert-lux alert-danger"></div>
+                <h3>معلومات الشحن</h3>
+                <div class="form-grid">
+                    <div class="field-full">
+                        <label asp-for="Input.FullName"></label>
+                        <input asp-for="Input.FullName" class="input-lux" />
+                        <span asp-validation-for="Input.FullName" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="input-lux" dir="ltr" />
+                        <span asp-validation-for="Input.Email" class="field-error"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.Phone"></label>
+                        <input asp-for="Input.Phone" class="input-lux" dir="ltr" />
+                        <span asp-validation-for="Input.Phone" class="field-error"></span>
+                    </div>
+                    <div class="field-full">
+                        <label asp-for="Input.Address"></label>
+                        <input asp-for="Input.Address" class="input-lux" />
+                        <span asp-validation-for="Input.Address" class="field-error"></span>
+                    </div>
+                    <div class="field-full">
+                        <label asp-for="Input.City"></label>
+                        <input asp-for="Input.City" class="input-lux" />
+                        <span asp-validation-for="Input.City" class="field-error"></span>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">طريقة الدفع</h3>
+                <div class="pay-options">
+                    <label class="pay-opt"><input type="radio" asp-for="Input.PaymentMethod" value="cod" checked /><span>الدفع عند الاستلام</span></label>
+                    <label class="pay-opt"><input type="radio" asp-for="Input.PaymentMethod" value="card" /><span>بطاقة ائتمان / مدى</span></label>
+                    <label class="pay-opt"><input type="radio" asp-for="Input.PaymentMethod" value="applepay" /><span>Apple Pay</span></label>
+                </div>
+                <button type="submit" class="btn-lux btn-lux-lg w-100 mt-4">تأكيد الطلب</button>
+            </form>
+
+            <div class="panel-lux panel-summary">
+                <h3>طلبك</h3>
+                @foreach (var item in items)
+                {
+                    <div class="checkout-lux-item">
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                        <div><strong>@item.Name</strong><br /><small>× @item.Quantity</small></div>
+                        <span>@item.Total.ToString("0.##") ر.س</span>
+                    </div>
+                }
+                <div class="summary-line"><span>المجموع</span><span>@Model.Subtotal.ToString("0.##") ر.س</span></div>
+                <div class="summary-line"><span>الشحن</span><span>@(Model.Shipping == 0 ? "مجاني" : $"{Model.Shipping:0.##} ر.س")</span></div>
+                <div class="summary-line summary-total"><span>الإجمالي</span><span>@Model.Total.ToString("0.##") ر.س</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

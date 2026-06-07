@@ -1,0 +1,74 @@
+@page
+@model WComtismc.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.Category) ? "المتجر" : Model.Category;
+}
+
+<div class="shop-page">
+    <div class="shop-banner">
+        <div class="container">
+            <div class="section-label">المجموعة</div>
+            <h1 class="shop-title">@ViewData["Title"]</h1>
+            <p class="shop-count">@Model.Products.Count منتج متاح</p>
+        </div>
+    </div>
+
+    <div class="container shop-content">
+        <div class="filter-chips">
+            <a asp-page="/Products/Index" asp-route-q="@Model.Query" asp-route-sort="@Model.Sort"
+               class="chip @(string.IsNullOrEmpty(Model.Category) ? "active" : "")">الكل</a>
+            @foreach (var category in Model.Categories)
+            {
+                <a asp-page="/Products/Index" asp-route-category="@category" asp-route-q="@Model.Query" asp-route-sort="@Model.Sort"
+                   class="chip @(Model.Category == category ? "active" : "")">@category</a>
+            }
+        </div>
+
+        <div class="shop-toolbar">
+            <form method="get" class="shop-search-inline">
+                <input type="text" name="q" value="@Model.Query" placeholder="بحث..." class="search-input" />
+                @if (!string.IsNullOrEmpty(Model.Category))
+                {
+                    <input type="hidden" name="category" value="@Model.Category" />
+                }
+                <button type="submit" class="search-btn">⌕</button>
+            </form>
+            <form method="get" class="shop-sort">
+                @if (!string.IsNullOrEmpty(Model.Query))
+                {
+                    <input type="hidden" name="q" value="@Model.Query" />
+                }
+                @if (!string.IsNullOrEmpty(Model.Category))
+                {
+                    <input type="hidden" name="category" value="@Model.Category" />
+                }
+                <select name="sort" class="sort-select" onchange="this.form.submit()">
+                    <option value="featured" selected="@(Model.Sort == "featured" ? "selected" : null)">مميز</option>
+                    <option value="newest" selected="@(Model.Sort == "newest" ? "selected" : null)">الأحدث</option>
+                    <option value="price-asc" selected="@(Model.Sort == "price-asc" ? "selected" : null)">الأقل سعراً</option>
+                    <option value="price-desc" selected="@(Model.Sort == "price-desc" ? "selected" : null)">الأعلى سعراً</option>
+                    <option value="rating" selected="@(Model.Sort == "rating" ? "selected" : null)">الأعلى تقييماً</option>
+                </select>
+            </form>
+        </div>
+
+        @if (Model.Products.Count == 0)
+        {
+            <div class="empty-lux">
+                <span class="empty-lux-icon">◇</span>
+                <h3>لا توجد نتائج</h3>
+                <p>جرّبي تغيير البحث أو التصنيف</p>
+                <a asp-page="/Products/Index" class="btn-lux">عرض الكل</a>
+            </div>
+        }
+        else
+        {
+            <div class="lux-grid">
+                @foreach (var product in Model.Products)
+                {
+                    <partial name="_ProductCard" model="product" />
+                }
+            </div>
+        }
+    </div>
+</div>

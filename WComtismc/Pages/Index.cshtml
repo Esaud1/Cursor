@@ -1,0 +1,135 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "الرئيسية";
+    var perfumeVideo = Url.Content("~/videos/perfume.mp4");
+    var nailsVideo = Url.Content("~/videos/nails.mp4");
+}
+
+<section class="cine-hero" id="heroSection">
+    <div class="hero-video-slider" aria-hidden="true">
+        <div class="hero-video-slide is-active" data-hero-slide="0"
+             style="background-image: url('https://images.unsplash.com/photo-1541643600914-78b084683601?w=1600&h=900&fit=crop');">
+            <video class="hero-video" autoplay muted loop playsinline preload="auto"
+                   src="@perfumeVideo"
+                   poster="https://images.unsplash.com/photo-1541643600914-78b084683601?w=1200&h=800&fit=crop">
+            </video>
+            <span class="hero-video-caption">عطور فاخرة — لمسة أناقة</span>
+        </div>
+        <div class="hero-video-slide" data-hero-slide="1"
+             style="background-image: url('https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1600&h=900&fit=crop');">
+            <video class="hero-video" muted loop playsinline preload="auto"
+                   src="@nailsVideo"
+                   poster="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1200&h=800&fit=crop">
+            </video>
+            <span class="hero-video-caption">طلاء أظافر — لمسة فاخرة</span>
+        </div>
+    </div>
+
+    <div class="cine-hero-overlay"></div>
+
+    <div class="hero-motion-dock d-none d-lg-flex">
+        <button type="button" class="motion-thumb is-active" data-hero-target="0" aria-label="فيديو العطور">
+            <video muted loop playsinline preload="metadata" src="@perfumeVideo"></video>
+            <span>عطور</span>
+        </button>
+        <button type="button" class="motion-thumb" data-hero-target="1" aria-label="فيديو طلاء الأظافر">
+            <video muted loop playsinline preload="metadata" src="@nailsVideo"></video>
+            <span>أظافر</span>
+        </button>
+    </div>
+
+    <div class="container cine-hero-content">
+        <span class="cine-eyebrow">Noir Collection — 2026</span>
+        <h1 class="cine-title">W <em>Cosmatic</em></h1>
+        <p class="cine-lead">عالم الجمال في أناقة الليل — مكياج فاخر، عناية ملكية، وعطور استثنائية</p>
+        <div class="cine-actions">
+            <a asp-page="/Products/Index" class="btn-lux btn-lux-lg">استكشفي المجموعة</a>
+            <a asp-page="/Products/Index" asp-route-category="عطور" class="btn-lux-ghost btn-lux-lg">العطور الفاخرة</a>
+        </div>
+        <div class="hero-slide-dots">
+            <button type="button" class="hero-dot is-active" data-hero-target="0" aria-label="الشريحة 1"></button>
+            <button type="button" class="hero-dot" data-hero-target="1" aria-label="الشريحة 2"></button>
+        </div>
+        <div class="cine-stats">
+            <div><strong>15+</strong><span>منتج حصري</span></div>
+            <div><strong>5</strong><span>تصنيفات</span></div>
+            <div><strong>24/7</strong><span>دعم فوري</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="lux-section">
+    <div class="container">
+        <div class="section-label">التصنيفات</div>
+        <div class="bento-grid">
+            @{
+                var bentoClasses = new[] { "bento-wide", "bento-tall", "", "", "bento-wide" };
+                var idx = 0;
+            }
+            @foreach (var category in Model.Categories)
+            {
+                var cls = idx < bentoClasses.Length ? bentoClasses[idx] : "";
+                <a asp-page="/Products/Index" asp-route-category="@category" class="bento-item @cls">
+                    <span class="bento-icon">@IndexModel.GetCategoryIcon(category)</span>
+                    <span class="bento-name">@category</span>
+                    <span class="bento-arrow">←</span>
+                </a>
+                idx++;
+            }
+        </div>
+    </div>
+</section>
+
+<section class="lux-section lux-section-dark">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <div class="section-label">مختارات المحرر</div>
+                <h2 class="section-title">منتجات مميزة</h2>
+            </div>
+            <a asp-page="/Products/Index" class="link-gold">عرض الكل</a>
+        </div>
+        <div class="scroll-row" data-scroll-row>
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                <div class="scroll-row-item">
+                    <partial name="_ProductCard" model="product" />
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="lux-section">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <div class="section-label">وصل حديثاً</div>
+                <h2 class="section-title">أحدث الإصدارات</h2>
+            </div>
+            <a asp-page="/Products/Index" asp-route-sort="newest" class="link-gold">عرض الكل</a>
+        </div>
+        <div class="row-list">
+            @foreach (var product in Model.NewProducts)
+            {
+                <partial name="_ProductRow" model="product" />
+            }
+        </div>
+    </div>
+</section>
+
+<section class="lux-cta">
+    <div class="container lux-cta-inner">
+        <div>
+            <div class="section-label">عرض حصري</div>
+            <h2>خصم 20% على أول طلب</h2>
+            <p>انضمي لعائلة W Cosmatic واستمتعي بتجربة تسوق فاخرة</p>
+        </div>
+        <a asp-page="/Account/Register" class="btn-lux btn-lux-lg">إنشاء حساب</a>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/hero-motion.js" asp-append-version="true"></script>
+}

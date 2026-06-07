@@ -1,0 +1,36 @@
+@page "{id:guid}"
+@model WComtismc.Pages.Orders.ConfirmationModel
+@using WComtismc.Helpers
+@{
+    ViewData["Title"] = "تأكيد الطلب";
+}
+
+<div class="inner-page">
+    <div class="container">
+        <div class="confirm-lux">
+            <div class="confirm-icon">✓</div>
+            <div class="section-label">تم بنجاح</div>
+            <h1 class="section-title">شكراً لطلبك</h1>
+            <p class="confirm-lead">سيتم تجهيز طلبك وإرساله قريباً</p>
+
+            <div class="confirm-grid">
+                <div><span>رقم الطلب</span><strong dir="ltr">#@Model.Order.Id.ToString()[..8].ToUpper()</strong></div>
+                <div><span>الحالة</span><strong>@StoreLabels.GetStatusLabel(Model.Order.Status)</strong></div>
+                <div><span>الإجمالي</span><strong class="lux-price">@Model.Order.Total.ToString("0.##") ر.س</strong></div>
+                <div><span>الدفع</span><strong>@StoreLabels.GetPaymentLabel(Model.Order.PaymentMethod)</strong></div>
+            </div>
+
+            <div class="panel-lux mt-4 text-start">
+                @foreach (var item in Model.Order.Items)
+                {
+                    <div class="summary-line"><span>@item.Name × @item.Quantity</span><span>@item.Total.ToString("0.##") ر.س</span></div>
+                }
+            </div>
+
+            <div class="confirm-actions">
+                <a asp-page="/Orders/MyOrders" class="btn-lux">طلباتي</a>
+                <a asp-page="/Products/Index" class="btn-lux-ghost">متابعة التسوق</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+﻿@inject WComtismc.Services.ICartService CartService
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - W Cosmatic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="noir-body">
+    <aside class="dock-sidebar d-none d-xl-flex">
+        <a asp-page="/Index" class="dock-logo" title="الرئيسية">
+            <span>W</span>
+        </a>
+        <nav class="dock-nav">
+            <a asp-page="/Index" class="dock-link" title="الرئيسية">
+                <span class="dock-icon">⌂</span>
+                <span class="dock-label">الرئيسية</span>
+            </a>
+            <a asp-page="/Products/Index" class="dock-link" title="المتجر">
+                <span class="dock-icon">◈</span>
+                <span class="dock-label">المتجر</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="مكياج" class="dock-link" title="مكياج">
+                <span class="dock-icon">✦</span>
+                <span class="dock-label">مكياج</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="العناية بالبشرة" class="dock-link" title="بشرة">
+                <span class="dock-icon">◇</span>
+                <span class="dock-label">بشرة</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="عطور" class="dock-link" title="عطور">
+                <span class="dock-icon">❋</span>
+                <span class="dock-label">عطور</span>
+            </a>
+            <a asp-page="/Cart/Index" class="dock-link dock-cart" title="السلة">
+                <span class="dock-icon">🛍</span>
+                <span class="dock-label">السلة</span>
+                @if (CartService.GetItemCount() > 0)
+                {
+                    <span class="dock-badge">@CartService.GetItemCount()</span>
+                }
+            </a>
+        </nav>
+        <div class="dock-footer">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-page="/Orders/MyOrders" class="dock-link" title="@User.Identity.Name">
+                    <span class="dock-icon">◉</span>
+                </a>
+            }
+            else
+            {
+                <a asp-page="/Account/Login" class="dock-link" title="دخول">
+                    <span class="dock-icon">◉</span>
+                </a>
+            }
+        </div>
+    </aside>
+
+    <div class="app-frame">
+        <header class="glass-header">
+            <div class="container-fluid header-inner">
+                <a asp-page="/Index" class="header-brand d-xl-none">
+                    <span class="brand-mark">W</span>
+                    <span class="brand-name">Cosmatic</span>
+                </a>
+
+                <form method="get" asp-page="/Products/Index" class="header-search">
+                    <input type="text" name="q" placeholder="ابحثي في مجموعة الجمال..." class="search-input" />
+                    <button type="submit" class="search-btn">⌕</button>
+                </form>
+
+                <div class="header-actions">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-page="/Orders/MyOrders" class="header-action d-none d-md-flex">طلباتي</a>
+                        <form method="post" asp-page="/Account/Logout" class="d-inline">
+                            <button type="submit" class="header-action btn-logout">خروج</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Login" class="header-action d-none d-md-flex">دخول</a>
+                        <a asp-page="/Account/Register" class="header-action header-action-gold d-none d-md-flex">تسجيل</a>
+                    }
+                    <a asp-page="/Cart/Index" class="header-cart">
+                        <span>🛍</span>
+                        <span class="header-cart-count">@CartService.GetItemCount()</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="store-main">
+            @RenderBody()
+        </main>
+
+        <footer class="noir-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <h4 class="footer-logo">W Cosmatic</h4>
+                        <p>بوتيك الجمال الفاخر — تجربة تسوق راقية لعالم التجميل والعناية.</p>
+                    </div>
+                    <div>
+                        <h5>استكشفي</h5>
+                        <a asp-page="/Products/Index">المجموعة الكاملة</a>
+                        <a asp-page="/Products/Index" asp-route-sort="newest">وصل حديثاً</a>
+                        <a asp-page="/Products/Index" asp-route-category="عطور">عطور فاخرة</a>
+                    </div>
+                    <div>
+                        <h5>الحساب</h5>
+                        <a asp-page="/Account/Login">تسجيل الدخول</a>
+                        <a asp-page="/Orders/MyOrders">طلباتي</a>
+                        <a asp-page="/Cart/Index">سلة التسوق</a>
+                    </div>
+                    <div>
+                        <h5>تواصلي</h5>
+                        <span>info@wcosmatic.com</span>
+                        <span>920 000 000</span>
+                    </div>
+                </div>
+                <div class="footer-line"></div>
+                <p class="footer-copy">&copy; 2026 W Cosmatic</p>
+            </div>
+        </footer>
+    </div>
+
+    <nav class="mobile-dock d-xl-none">
+        <a asp-page="/Index" class="mobile-dock-item">
+            <span>⌂</span>
+            <small>الرئيسية</small>
+        </a>
+        <a asp-page="/Products/Index" class="mobile-dock-item">
+            <span>◈</span>
+            <small>المتجر</small>
+        </a>
+        <a asp-page="/Cart/Index" class="mobile-dock-item">
+            <span>🛍</span>
+            <small>السلة</small>
+            @if (CartService.GetItemCount() > 0)
+            {
+                <em class="mobile-dock-badge">@CartService.GetItemCount()</em>
+            }
+        </a>
+        <a asp-page="/Account/Login" class="mobile-dock-item">
+            <span>◉</span>
+            <small>حسابي</small>
+        </a>
+    </nav>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
