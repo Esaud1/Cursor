@@ -4,9 +4,41 @@
     ViewData["Title"] = "الرئيسية";
 }
 
-<section class="cine-hero">
-    <div class="cine-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1600&h=900&fit=crop')"></div>
+<section class="cine-hero" id="heroSection">
+    <div class="hero-video-slider" aria-hidden="true">
+        <div class="hero-video-slide is-active" data-hero-slide="0">
+            <video class="hero-video" autoplay muted loop playsinline preload="auto"
+                   poster="https://images.unsplash.com/photo-1541643600914-78b084683601?w=1200&h=800&fit=crop">
+                <source src="~/videos/perfume.mp4" type="video/mp4" />
+            </video>
+            <span class="hero-video-caption">عطور فاخرة — لمسة أناقة</span>
+        </div>
+        <div class="hero-video-slide" data-hero-slide="1">
+            <video class="hero-video" muted loop playsinline preload="auto"
+                   poster="https://images.unsplash.com/photo-1518310383802-640c23336399?w=1200&h=800&fit=crop">
+                <source src="~/videos/running.mp4" type="video/mp4" />
+            </video>
+            <span class="hero-video-caption">نشاط وحيوية — أداء يومي</span>
+        </div>
+    </div>
+
     <div class="cine-hero-overlay"></div>
+
+    <div class="hero-motion-dock d-none d-lg-flex">
+        <button type="button" class="motion-thumb is-active" data-hero-target="0" aria-label="فيديو العطور">
+            <video muted loop playsinline preload="metadata">
+                <source src="~/videos/perfume.mp4" type="video/mp4" />
+            </video>
+            <span>عطور</span>
+        </button>
+        <button type="button" class="motion-thumb" data-hero-target="1" aria-label="فيديو رياضي">
+            <video muted loop playsinline preload="metadata">
+                <source src="~/videos/running.mp4" type="video/mp4" />
+            </video>
+            <span>رياضة</span>
+        </button>
+    </div>
+
     <div class="container cine-hero-content">
         <span class="cine-eyebrow">Noir Collection — 2026</span>
         <h1 class="cine-title">W <em>Comtismc</em></h1>
@@ -14,6 +46,10 @@
         <div class="cine-actions">
             <a asp-page="/Products/Index" class="btn-lux btn-lux-lg">استكشفي المجموعة</a>
             <a asp-page="/Products/Index" asp-route-category="عطور" class="btn-lux-ghost btn-lux-lg">العطور الفاخرة</a>
+        </div>
+        <div class="hero-slide-dots">
+            <button type="button" class="hero-dot is-active" data-hero-target="0" aria-label="الشريحة 1"></button>
+            <button type="button" class="hero-dot" data-hero-target="1" aria-label="الشريحة 2"></button>
         </div>
         <div class="cine-stats">
             <div><strong>15+</strong><span>منتج حصري</span></div>
@@ -93,3 +129,7 @@
         <a asp-page="/Account/Register" class="btn-lux btn-lux-lg">إنشاء حساب</a>
     </div>
 </section>
+
+@section Scripts {
+    <script src="~/js/hero-motion.js" asp-append-version="true"></script>
+}
