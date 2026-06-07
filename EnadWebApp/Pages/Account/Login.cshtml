@@ -1,7 +1,7 @@
 @page
 @model EnadWebApp.Pages.Account.LoginModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "تسجيل الدخول";
     Layout = "_LoginLayout";
 }
 
@@ -9,7 +9,7 @@
     <div class="login-card">
         <div class="login-header">
             <h1 class="login-title">Enad Web APP</h1>
-            <p class="login-subtitle">Sign in to your account</p>
+            <p class="login-subtitle">سجّل الدخول إلى حسابك</p>
         </div>
 
         <form method="post" class="login-form">
@@ -17,13 +17,13 @@
 
             <div class="mb-3">
                 <label asp-for="Input.Email" class="form-label"></label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="you@example.com" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="you@example.com" dir="ltr" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="Input.Password" class="form-label"></label>
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Enter your password" />
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="أدخل كلمة المرور" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
@@ -32,7 +32,7 @@
                 <label asp-for="Input.RememberMe" class="form-check-label"></label>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 login-btn">Sign In</button>
+            <button type="submit" class="btn btn-primary w-100 login-btn">تسجيل الدخول</button>
         </form>
     </div>
 </div>

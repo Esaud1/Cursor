@@ -1,5 +1,15 @@
+:root {
+  --enad-green: #2e7d32;
+  --enad-green-dark: #1b5e20;
+  --enad-green-light: #4caf50;
+  --enad-white: #ffffff;
+  --enad-off-white: #f8faf8;
+}
+
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,23 +18,50 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
   margin-bottom: 60px;
+  background-color: var(--enad-off-white);
+  color: #212529;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--enad-green-light);
+}
+
+.bg-primary {
+  background-color: var(--enad-green) !important;
+}
+
+.btn-primary {
+  color: var(--enad-white);
+  background-color: var(--enad-green);
+  border-color: var(--enad-green-dark);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  color: var(--enad-white);
+  background-color: var(--enad-green-dark);
+  border-color: var(--enad-green-dark);
+}
+
+a {
+  color: var(--enad-green);
+}
+
+a:hover {
+  color: var(--enad-green-dark);
 }
 
 .login-body {
   margin-bottom: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1b6ec2 0%, #0d3d6e 100%);
+  background: linear-gradient(135deg, var(--enad-green) 0%, var(--enad-green-dark) 100%);
 }
 
 .login-page {
@@ -38,10 +75,11 @@ body {
 .login-card {
   width: 100%;
   max-width: 420px;
-  background: #fff;
+  background: var(--enad-white);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(27, 94, 32, 0.25);
   padding: 2.5rem 2rem;
+  border-top: 4px solid var(--enad-green);
 }
 
 .login-header {
@@ -52,7 +90,7 @@ body {
 .login-title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1b6ec2;
+  color: var(--enad-green);
   margin-bottom: 0.5rem;
 }
 
@@ -69,4 +107,18 @@ body {
   padding: 0.65rem;
   font-weight: 600;
   font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: var(--enad-green-light);
+}
+
+.form-check-input:checked {
+  background-color: var(--enad-green);
+  border-color: var(--enad-green);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--enad-white) !important;
 }

@@ -23,17 +23,17 @@ public class LoginModel : PageModel
 
     public class InputModel
     {
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Enter a valid email address.")]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "البريد الإلكتروني مطلوب.")]
+        [EmailAddress(ErrorMessage = "يرجى إدخال بريد إلكتروني صالح.")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Password is required.")]
+        [Required(ErrorMessage = "كلمة المرور مطلوبة.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "كلمة المرور")]
         public string Password { get; set; } = string.Empty;
 
-        [Display(Name = "Remember me")]
+        [Display(Name = "تذكرني")]
         public bool RememberMe { get; set; }
     }
 
@@ -63,7 +63,7 @@ public class LoginModel : PageModel
         if (!string.Equals(Input.Email, validEmail, StringComparison.OrdinalIgnoreCase) ||
             Input.Password != validPassword)
         {
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            ModelState.AddModelError(string.Empty, "البريد الإلكتروني أو كلمة المرور غير صحيحة.");
             return Page();
         }
 

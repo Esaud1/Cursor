@@ -1,17 +1,17 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "الرئيسية";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Enad Web APP</h1>
+    <h1 class="display-4 text-success">Enad Web APP</h1>
     @if (User.Identity?.IsAuthenticated == true)
     {
-        <p class="lead">Welcome back, @User.Identity.Name!</p>
+        <p class="lead">مرحباً بعودتك، @User.Identity.Name!</p>
     }
     else
     {
-        <p class="lead">Please <a asp-page="/Account/Login">sign in</a> to continue.</p>
+        <p class="lead">يرجى <a asp-page="/Account/Login">تسجيل الدخول</a> للمتابعة.</p>
     }
 </div>
