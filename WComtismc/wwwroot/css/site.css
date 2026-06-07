@@ -298,6 +298,8 @@ a:hover { color: var(--gold); }
   transform: scale(1.08);
   transition: opacity 1.2s ease, transform 8s ease;
   pointer-events: none;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-video-slide.is-active {
@@ -311,6 +313,11 @@ a:hover { color: var(--gold); }
   height: 100%;
   object-fit: cover;
   display: block;
+  background: #12121a;
+}
+
+.hero-video-slide.use-poster .hero-video {
+  opacity: 0;
 }
 
 .hero-video-caption {
@@ -338,8 +345,9 @@ a:hover { color: var(--gold); }
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(105deg, rgba(8, 8, 12, 0.88) 0%, rgba(8, 8, 12, 0.45) 45%, rgba(8, 8, 12, 0.75) 100%),
-    linear-gradient(to top, rgba(8, 8, 12, 0.9) 0%, transparent 40%);
+    linear-gradient(105deg, rgba(8, 8, 12, 0.72) 0%, rgba(8, 8, 12, 0.35) 45%, rgba(8, 8, 12, 0.55) 100%),
+    linear-gradient(to top, rgba(8, 8, 12, 0.65) 0%, transparent 45%);
+  pointer-events: none;
 }
 
 .hero-motion-dock {

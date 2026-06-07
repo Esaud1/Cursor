@@ -2,21 +2,25 @@
 @model IndexModel
 @{
     ViewData["Title"] = "الرئيسية";
+    var perfumeVideo = Url.Content("~/videos/perfume.mp4");
+    var runningVideo = Url.Content("~/videos/running.mp4");
 }
 
 <section class="cine-hero" id="heroSection">
     <div class="hero-video-slider" aria-hidden="true">
-        <div class="hero-video-slide is-active" data-hero-slide="0">
+        <div class="hero-video-slide is-active" data-hero-slide="0"
+             style="background-image: url('https://images.unsplash.com/photo-1541643600914-78b084683601?w=1600&h=900&fit=crop');">
             <video class="hero-video" autoplay muted loop playsinline preload="auto"
+                   src="@perfumeVideo"
                    poster="https://images.unsplash.com/photo-1541643600914-78b084683601?w=1200&h=800&fit=crop">
-                <source src="~/videos/perfume.mp4" type="video/mp4" />
             </video>
             <span class="hero-video-caption">عطور فاخرة — لمسة أناقة</span>
         </div>
-        <div class="hero-video-slide" data-hero-slide="1">
+        <div class="hero-video-slide" data-hero-slide="1"
+             style="background-image: url('https://images.unsplash.com/photo-1518310383802-640c23336399?w=1600&h=900&fit=crop');">
             <video class="hero-video" muted loop playsinline preload="auto"
+                   src="@runningVideo"
                    poster="https://images.unsplash.com/photo-1518310383802-640c23336399?w=1200&h=800&fit=crop">
-                <source src="~/videos/running.mp4" type="video/mp4" />
             </video>
             <span class="hero-video-caption">نشاط وحيوية — أداء يومي</span>
         </div>
@@ -26,15 +30,11 @@
 
     <div class="hero-motion-dock d-none d-lg-flex">
         <button type="button" class="motion-thumb is-active" data-hero-target="0" aria-label="فيديو العطور">
-            <video muted loop playsinline preload="metadata">
-                <source src="~/videos/perfume.mp4" type="video/mp4" />
-            </video>
+            <video muted loop playsinline preload="metadata" src="@perfumeVideo"></video>
             <span>عطور</span>
         </button>
         <button type="button" class="motion-thumb" data-hero-target="1" aria-label="فيديو رياضي">
-            <video muted loop playsinline preload="metadata">
-                <source src="~/videos/running.mp4" type="video/mp4" />
-            </video>
+            <video muted loop playsinline preload="metadata" src="@runningVideo"></video>
             <span>رياضة</span>
         </button>
     </div>
