@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Enad Web APP</h1>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <p class="lead">Welcome back, @User.Identity.Name!</p>
+    }
+    else
+    {
+        <p class="lead">Please <a asp-page="/Account/Login">sign in</a> to continue.</p>
+    }
+</div>
