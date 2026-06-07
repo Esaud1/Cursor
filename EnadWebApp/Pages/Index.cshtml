@@ -4,14 +4,18 @@
     ViewData["Title"] = "الرئيسية";
 }
 
-<div class="text-center">
-    <h1 class="display-4 text-success">Enad Web APP</h1>
+<div class="page-header">
+    <h1 class="page-title">القائمة الرئيسية</h1>
+    <p class="page-subtitle">Enad Web APP</p>
+</div>
+
+<div class="content-card">
     @if (User.Identity?.IsAuthenticated == true)
     {
-        <p class="lead">مرحباً بعودتك، @User.Identity.Name!</p>
+        <p class="lead mb-0">مرحباً بعودتك، <strong>@User.Identity.Name</strong>!</p>
     }
     else
     {
-        <p class="lead">يرجى <a asp-page="/Account/Login">تسجيل الدخول</a> للمتابعة.</p>
+        <p class="lead mb-0">يرجى <a asp-page="/Account/Login">تسجيل الدخول</a> للمتابعة.</p>
     }
 </div>

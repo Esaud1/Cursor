@@ -1,0 +1,21 @@
+@page
+@model EnadWebApp.Pages.Search.IndexModel
+@{
+    ViewData["Title"] = "البحث";
+}
+
+<div class="page-header">
+    <h1 class="page-title">البحث</h1>
+    <p class="page-subtitle">ابحث عن الجلسات والبيانات</p>
+</div>
+
+<div class="content-card">
+    <form method="get" class="row g-3">
+        <div class="col-md-10">
+            <input type="text" name="query" class="form-control" placeholder="أدخل كلمة البحث..." value="@Model.Query" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">بحث</button>
+        </div>
+    </form>
+</div>

@@ -122,3 +122,125 @@ a:hover {
   font-weight: 700;
   color: var(--enad-white) !important;
 }
+
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 56px - 60px);
+}
+
+.sidebar-nav {
+  width: 260px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--enad-green-dark) 0%, var(--enad-green) 100%);
+  color: var(--enad-white);
+  flex-direction: column;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-header {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-inline-start: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--enad-white);
+}
+
+.sidebar-link.active {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: var(--enad-white);
+  border-inline-start-color: var(--enad-white);
+  font-weight: 700;
+}
+
+.sidebar-icon {
+  font-size: 1.1rem;
+  width: 1.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  min-width: 0;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--enad-green);
+  margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.content-card {
+  background: var(--enad-white);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(46, 125, 50, 0.08);
+  border: 1px solid rgba(46, 125, 50, 0.1);
+}
+
+.sidebar-offcanvas {
+  width: 280px;
+  background: linear-gradient(180deg, var(--enad-green-dark) 0%, var(--enad-green) 100%);
+}
+
+.sidebar-offcanvas-header {
+  background-color: var(--enad-green-dark);
+  color: var(--enad-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-offcanvas-body .sidebar-menu {
+  padding-top: 0.5rem;
+}
+
+.sidebar-toggle {
+  padding: 0.25rem 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}
