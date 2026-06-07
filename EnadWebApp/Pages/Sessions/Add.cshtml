@@ -6,9 +6,156 @@
 
 <div class="page-header">
     <h1 class="page-title">اضافة جلسة</h1>
-    <p class="page-subtitle">إنشاء جلسة جديدة</p>
+    <p class="page-subtitle">إنشاء جلسة جديدة وتحديد تفاصيلها</p>
 </div>
 
-<div class="content-card">
-    <p class="text-muted mb-0">سيتم إضافة نموذج إنشاء الجلسة هنا.</p>
-</div>
+@if (Model.ShowSuccess)
+{
+    <div class="alert alert-success session-alert" role="alert">
+        تم حفظ بيانات الجلسة بنجاح.
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data" class="session-form" id="sessionForm">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="content-card session-section">
+                <h2 class="section-title">المعلومات الأساسية</h2>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Title" class="form-label"></label>
+                    <input asp-for="Input.Title" class="form-control" placeholder="أدخل عنوان الجلسة" />
+                    <span asp-validation-for="Input.Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-0">
+                    <label asp-for="Input.Description" class="form-label"></label>
+                    <textarea asp-for="Input.Description" class="form-control" rows="4" placeholder="أدخل وصفاً مختصراً للجلسة"></textarea>
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="content-card session-section">
+                <h2 class="section-title">اجندة الجلسة</h2>
+                <p class="section-hint">أضف بنود الأجندة مع المدة التقديرية لكل بند</p>
+
+                <div id="agendaList" class="agenda-list">
+                    @for (var i = 0; i < Model.Input.AgendaItems.Count; i++)
+                    {
+                        <div class="agenda-item" data-index="@i">
+                            <div class="agenda-item-header">
+                                <span class="agenda-item-number">بند @(i + 1)</span>
+                                <button type="button" class="btn btn-sm btn-outline-danger agenda-remove-btn" title="حذف البند">
+                                    حذف
+                                </button>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-md-8">
+                                    <label asp-for="Input.AgendaItems[i].Topic" class="form-label"></label>
+                                    <input asp-for="Input.AgendaItems[i].Topic" class="form-control" placeholder="موضوع البند" />
+                                    <span asp-validation-for="Input.AgendaItems[i].Topic" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Input.AgendaItems[i].Duration" class="form-label"></label>
+                                    <input asp-for="Input.AgendaItems[i].Duration" class="form-control" placeholder="مثال: 15 دقيقة" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button type="button" class="btn btn-outline-primary btn-sm mt-3" id="addAgendaBtn">
+                    + إضافة بند للأجندة
+                </button>
+            </div>
+
+            <div class="content-card session-section">
+                <h2 class="section-title">مرفقات الجلسة</h2>
+                <p class="section-hint">يمكنك رفع ملفات PDF أو Word أو صور (بحد أقصى 10 ميجابايت لكل ملف)</p>
+
+                <div class="file-upload-area">
+                    <label asp-for="Input.Attachments" class="form-label"></label>
+                    <input asp-for="Input.Attachments" type="file" class="form-control" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" />
+                    <span asp-validation-for="Input.Attachments" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="content-card session-section">
+                <h2 class="section-title">تاريخ الجلسة</h2>
+
+                <div class="mb-0">
+                    <label asp-for="Input.SessionDate" class="form-label"></label>
+                    <input asp-for="Input.SessionDate" class="form-control" type="datetime-local" dir="ltr" />
+                    <span asp-validation-for="Input.SessionDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="content-card session-section">
+                <h2 class="section-title">قائمة الاعضاء</h2>
+                <p class="section-hint">اختر الأعضاء المشاركين في الجلسة</p>
+
+                <div class="members-list">
+                    @foreach (var member in Model.AvailableMembers)
+                    {
+                        <div class="form-check member-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="Input.SelectedMembers"
+                                   value="@member.Id"
+                                   id="member-@member.Id"
+                                   checked="@(Model.Input.SelectedMembers.Contains(member.Id))" />
+                            <label class="form-check-label" for="member-@member.Id">@member.Name</label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="Input.SelectedMembers" class="text-danger"></span>
+            </div>
+
+            <div class="content-card session-section">
+                <h2 class="section-title">الاشخاص المدعوين</h2>
+                <p class="section-hint">أدخل أسماء أو بريد المدعوين (كل اسم في سطر)</p>
+
+                <div class="mb-0">
+                    <label asp-for="Input.InvitedPeople" class="form-label"></label>
+                    <textarea asp-for="Input.InvitedPeople" class="form-control" rows="5" placeholder="مثال:&#10;خالد العتيبي&#10;guest@example.com"></textarea>
+                    <span asp-validation-for="Input.InvitedPeople" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="session-actions">
+                <button type="submit" class="btn btn-primary w-100">حفظ الجلسة</button>
+                <a asp-page="/Sessions/Active" class="btn btn-outline-secondary w-100 mt-2">إلغاء</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<template id="agendaItemTemplate">
+    <div class="agenda-item" data-index="__index__">
+        <div class="agenda-item-header">
+            <span class="agenda-item-number">بند __number__</span>
+            <button type="button" class="btn btn-sm btn-outline-danger agenda-remove-btn" title="حذف البند">
+                حذف
+            </button>
+        </div>
+        <div class="row g-2">
+            <div class="col-md-8">
+                <label class="form-label">الموضوع</label>
+                <input class="form-control" name="Input.AgendaItems[__index__].Topic" placeholder="موضوع البند" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">المدة</label>
+                <input class="form-control" name="Input.AgendaItems[__index__].Duration" placeholder="مثال: 15 دقيقة" />
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/session-form.js" asp-append-version="true"></script>
+}
