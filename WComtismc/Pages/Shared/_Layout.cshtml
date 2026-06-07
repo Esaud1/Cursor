@@ -7,112 +7,152 @@
     <title>@ViewData["Title"] - W Comtismc</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
-    <div class="rainbow-stripe"></div>
-    <div class="store-topbar">
-        <div class="container">
-            <span>🌈 شحن مجاني للطلبات فوق 300 ر.س</span>
-            <span>W Comtismc — ألوان الجمال</span>
+<body class="noir-body">
+    <aside class="dock-sidebar d-none d-xl-flex">
+        <a asp-page="/Index" class="dock-logo" title="الرئيسية">
+            <span>W</span>
+        </a>
+        <nav class="dock-nav">
+            <a asp-page="/Index" class="dock-link" title="الرئيسية">
+                <span class="dock-icon">⌂</span>
+                <span class="dock-label">الرئيسية</span>
+            </a>
+            <a asp-page="/Products/Index" class="dock-link" title="المتجر">
+                <span class="dock-icon">◈</span>
+                <span class="dock-label">المتجر</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="مكياج" class="dock-link" title="مكياج">
+                <span class="dock-icon">✦</span>
+                <span class="dock-label">مكياج</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="العناية بالبشرة" class="dock-link" title="بشرة">
+                <span class="dock-icon">◇</span>
+                <span class="dock-label">بشرة</span>
+            </a>
+            <a asp-page="/Products/Index" asp-route-category="عطور" class="dock-link" title="عطور">
+                <span class="dock-icon">❋</span>
+                <span class="dock-label">عطور</span>
+            </a>
+            <a asp-page="/Cart/Index" class="dock-link dock-cart" title="السلة">
+                <span class="dock-icon">🛍</span>
+                <span class="dock-label">السلة</span>
+                @if (CartService.GetItemCount() > 0)
+                {
+                    <span class="dock-badge">@CartService.GetItemCount()</span>
+                }
+            </a>
+        </nav>
+        <div class="dock-footer">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-page="/Orders/MyOrders" class="dock-link" title="@User.Identity.Name">
+                    <span class="dock-icon">◉</span>
+                </a>
+            }
+            else
+            {
+                <a asp-page="/Account/Login" class="dock-link" title="دخول">
+                    <span class="dock-icon">◉</span>
+                </a>
+            }
         </div>
-    </div>
+    </aside>
 
-    <header class="store-header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand store-brand" asp-page="/Index">
-                    <span class="brand-icon">W</span>
-                    <span class="brand-text">Comtismc</span>
+    <div class="app-frame">
+        <header class="glass-header">
+            <div class="container-fluid header-inner">
+                <a asp-page="/Index" class="header-brand d-xl-none">
+                    <span class="brand-mark">W</span>
+                    <span class="brand-name">Comtismc</span>
                 </a>
 
-                <form method="get" asp-page="/Products/Index" class="store-search d-none d-lg-flex">
-                    <input type="text" name="q" placeholder="ابحث عن منتجات التجميل..." class="form-control" />
-                    <button type="submit" class="btn btn-store">بحث</button>
+                <form method="get" asp-page="/Products/Index" class="header-search">
+                    <input type="text" name="q" placeholder="ابحثي في مجموعة الجمال..." class="search-input" />
+                    <button type="submit" class="search-btn">⌕</button>
                 </form>
 
-                <div class="store-nav-actions">
+                <div class="header-actions">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <a asp-page="/Orders/MyOrders" class="nav-action" title="طلباتي">
-                            <span class="nav-icon">📦</span>
-                            <span class="d-none d-md-inline">طلباتي</span>
-                        </a>
-                        <span class="nav-user d-none d-md-inline">@User.Identity.Name</span>
+                        <a asp-page="/Orders/MyOrders" class="header-action d-none d-md-flex">طلباتي</a>
                         <form method="post" asp-page="/Account/Logout" class="d-inline">
-                            <button type="submit" class="btn btn-link nav-action p-0 border-0">خروج</button>
+                            <button type="submit" class="header-action btn-logout">خروج</button>
                         </form>
                     }
                     else
                     {
-                        <a asp-page="/Account/Login" class="nav-action">
-                            <span class="nav-icon">👤</span>
-                            <span class="d-none d-md-inline">دخول</span>
-                        </a>
-                        <a asp-page="/Account/Register" class="nav-action d-none d-md-inline">تسجيل</a>
+                        <a asp-page="/Account/Login" class="header-action d-none d-md-flex">دخول</a>
+                        <a asp-page="/Account/Register" class="header-action header-action-gold d-none d-md-flex">تسجيل</a>
                     }
-                    <a asp-page="/Cart/Index" class="nav-action cart-link">
-                        <span class="nav-icon">🛒</span>
-                        <span class="cart-count">@CartService.GetItemCount()</span>
+                    <a asp-page="/Cart/Index" class="header-cart">
+                        <span>🛍</span>
+                        <span class="header-cart-count">@CartService.GetItemCount()</span>
                     </a>
                 </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#storeNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
-        </nav>
-        <div class="rainbow-stripe"></div>
+        </header>
 
-        <div class="collapse navbar-collapse store-categories-nav" id="storeNav">
+        <main class="store-main">
+            @RenderBody()
+        </main>
+
+        <footer class="noir-footer">
             <div class="container">
-                <ul class="category-links">
-                    <li><a asp-page="/Products/Index">الكل</a></li>
-                    <li><a asp-page="/Products/Index" asp-route-category="مكياج">مكياج</a></li>
-                    <li><a asp-page="/Products/Index" asp-route-category="العناية بالبشرة">العناية بالبشرة</a></li>
-                    <li><a asp-page="/Products/Index" asp-route-category="عطور">عطور</a></li>
-                    <li><a asp-page="/Products/Index" asp-route-category="العناية بالشعر">العناية بالشعر</a></li>
-                    <li><a asp-page="/Products/Index" asp-route-category="الأظافر">الأظافر</a></li>
-                </ul>
+                <div class="footer-grid">
+                    <div>
+                        <h4 class="footer-logo">W Comtismc</h4>
+                        <p>بوتيك الجمال الفاخر — تجربة تسوق راقية لعالم التجميل والعناية.</p>
+                    </div>
+                    <div>
+                        <h5>استكشفي</h5>
+                        <a asp-page="/Products/Index">المجموعة الكاملة</a>
+                        <a asp-page="/Products/Index" asp-route-sort="newest">وصل حديثاً</a>
+                        <a asp-page="/Products/Index" asp-route-category="عطور">عطور فاخرة</a>
+                    </div>
+                    <div>
+                        <h5>الحساب</h5>
+                        <a asp-page="/Account/Login">تسجيل الدخول</a>
+                        <a asp-page="/Orders/MyOrders">طلباتي</a>
+                        <a asp-page="/Cart/Index">سلة التسوق</a>
+                    </div>
+                    <div>
+                        <h5>تواصلي</h5>
+                        <span>info@wcomtismc.com</span>
+                        <span>920 000 000</span>
+                    </div>
+                </div>
+                <div class="footer-line"></div>
+                <p class="footer-copy">&copy; 2026 W Comtismc</p>
             </div>
-        </div>
-    </header>
+        </footer>
+    </div>
 
-    <main class="store-main">
-        @RenderBody()
-    </main>
-
-    <footer class="store-footer">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h4 class="footer-brand">W Comtismc</h4>
-                    <p class="footer-text">وجهتك الأولى لمنتجات التجميل والعناية الفاخرة. نقدم لك أفضل الماركات بأسعار تنافسية.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>روابط سريعة</h5>
-                    <ul class="footer-links">
-                        <li><a asp-page="/Products/Index">المتجر</a></li>
-                        <li><a asp-page="/Cart/Index">سلة التسوق</a></li>
-                        <li><a asp-page="/Account/Register">إنشاء حساب</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>تواصل معنا</h5>
-                    <ul class="footer-links">
-                        <li>البريد: info@wcomtismc.com</li>
-                        <li>الهاتف: 920000000</li>
-                        <li>الدعم: 24/7</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 W Comtismc — جميع الحقوق محفوظة
-            </div>
-        </div>
-    </footer>
+    <nav class="mobile-dock d-xl-none">
+        <a asp-page="/Index" class="mobile-dock-item">
+            <span>⌂</span>
+            <small>الرئيسية</small>
+        </a>
+        <a asp-page="/Products/Index" class="mobile-dock-item">
+            <span>◈</span>
+            <small>المتجر</small>
+        </a>
+        <a asp-page="/Cart/Index" class="mobile-dock-item">
+            <span>🛍</span>
+            <small>السلة</small>
+            @if (CartService.GetItemCount() > 0)
+            {
+                <em class="mobile-dock-badge">@CartService.GetItemCount()</em>
+            }
+        </a>
+        <a asp-page="/Account/Login" class="mobile-dock-item">
+            <span>◉</span>
+            <small>حسابي</small>
+        </a>
+    </nav>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,18 @@
+@model WComtismc.Models.Product
+
+<a asp-page="/Products/Details" asp-route-id="@Model.Id" class="lux-row-card">
+    <img src="@Model.ImageUrl" alt="@Model.NameAr" loading="lazy" />
+    <div class="lux-row-body">
+        <span class="lux-brand">@Model.Brand</span>
+        <h3>@Model.NameAr</h3>
+        <p>@Model.Description</p>
+        <div class="lux-row-footer">
+            <span class="lux-price">@Model.Price.ToString("0.##") ر.س</span>
+            @if (Model.OldPrice is > 0)
+            {
+                <span class="lux-old-price">@Model.OldPrice.Value.ToString("0.##")</span>
+            }
+            <span class="lux-rating">★ @Model.Rating.ToString("0.0")</span>
+        </div>
+    </div>
+</a>

@@ -4,36 +4,39 @@
     ViewData["Title"] = "إنشاء حساب";
 }
 
-<div class="container store-page">
-    <div class="auth-card">
-        <h1>إنشاء حساب</h1>
-        <p class="auth-subtitle">انضمي إلى عائلة W Comtismc</p>
+<div class="inner-page">
+    <div class="container">
+        <div class="auth-lux">
+            <div class="section-label">انضمي إلينا</div>
+            <h1 class="section-title">إنشاء حساب</h1>
+            <p class="auth-lead">انضمي لعائلة W Comtismc الفاخرة</p>
 
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-            <div class="mb-3">
-                <label asp-for="Input.FullName" class="form-label"></label>
-                <input asp-for="Input.FullName" class="form-control" />
-                <span asp-validation-for="Input.FullName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label"></label>
-                <input asp-for="Input.Email" class="form-control" dir="ltr" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-store w-100">تسجيل</button>
-        </form>
-        <p class="auth-footer">لديك حساب؟ <a asp-page="/Account/Login">سجّلي الدخول</a></p>
+            <form method="post" class="panel-lux">
+                <div asp-validation-summary="ModelOnly" class="alert-lux alert-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="Input.FullName" class="form-label"></label>
+                    <input asp-for="Input.FullName" class="input-lux" />
+                    <span asp-validation-for="Input.FullName" class="field-error"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <input asp-for="Input.Email" class="input-lux" dir="ltr" />
+                    <span asp-validation-for="Input.Email" class="field-error"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password" class="input-lux" />
+                    <span asp-validation-for="Input.Password" class="field-error"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                    <input asp-for="Input.ConfirmPassword" class="input-lux" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="field-error"></span>
+                </div>
+                <button type="submit" class="btn-lux w-100">تسجيل</button>
+            </form>
+            <p class="auth-foot">لديك حساب؟ <a asp-page="/Account/Login" class="link-gold">سجّلي الدخول</a></p>
+        </div>
     </div>
 </div>
 
