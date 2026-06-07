@@ -1,0 +1,37 @@
+@model WComtismc.Models.Product
+
+<div class="product-card">
+    <a asp-page="/Products/Details" asp-route-id="@Model.Id" class="product-card-image-link">
+        <div class="product-card-image">
+            <img src="@Model.ImageUrl" alt="@Model.NameAr" loading="lazy" />
+            @if (Model.DiscountPercent > 0)
+            {
+                <span class="product-badge product-badge-sale">-@Model.DiscountPercent%</span>
+            }
+            @if (Model.IsNew)
+            {
+                <span class="product-badge product-badge-new">جديد</span>
+            }
+        </div>
+    </a>
+    <div class="product-card-body">
+        <span class="product-brand">@Model.Brand</span>
+        <h3 class="product-name">
+            <a asp-page="/Products/Details" asp-route-id="@Model.Id">@Model.NameAr</a>
+        </h3>
+        <div class="product-rating">
+            <span class="stars">★</span> @Model.Rating.ToString("0.0")
+        </div>
+        <div class="product-price-row">
+            <span class="product-price">@Model.Price.ToString("0.##") ر.س</span>
+            @if (Model.OldPrice is > 0)
+            {
+                <span class="product-old-price">@Model.OldPrice.Value.ToString("0.##") ر.س</span>
+            }
+        </div>
+        <form method="post" asp-page="/Cart/Index" asp-page-handler="Add" class="product-add-form">
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <button type="submit" class="btn btn-store btn-sm w-100">أضف إلى السلة</button>
+        </form>
+    </div>
+</div>

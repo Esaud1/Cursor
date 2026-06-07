@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "الرئيسية";
+}
+
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-tag">مجموعة ربيع 2026</span>
+            <h1 class="hero-title">W Comtismc</h1>
+            <p class="hero-subtitle">اكتشفي عالم الجمال الفاخر — مكياج، عناية، عطور وأكثر</p>
+            <div class="hero-actions">
+                <a asp-page="/Products/Index" class="btn btn-store btn-lg">تسوقي الآن</a>
+                <a asp-page="/Products/Index" asp-route-category="مكياج" class="btn btn-outline-store btn-lg">المكياج</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="store-section">
+    <div class="container">
+        <h2 class="section-heading">التصنيفات</h2>
+        <div class="category-grid">
+            @foreach (var category in Model.Categories)
+            {
+                <a asp-page="/Products/Index" asp-route-category="@category" class="category-card">
+                    <span class="category-card-icon">@IndexModel.GetCategoryIcon(category)</span>
+                    <span class="category-card-name">@category</span>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="store-section bg-cream">
+    <div class="container">
+        <div class="section-header-row">
+            <h2 class="section-heading mb-0">منتجات مميزة</h2>
+            <a asp-page="/Products/Index" class="view-all-link">عرض الكل ←</a>
+        </div>
+        <div class="product-grid">
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                <partial name="_ProductCard" model="product" />
+            }
+        </div>
+    </div>
+</section>
+
+<section class="store-section">
+    <div class="container">
+        <div class="section-header-row">
+            <h2 class="section-heading mb-0">وصل حديثاً</h2>
+            <a asp-page="/Products/Index" asp-route-sort="newest" class="view-all-link">عرض الكل ←</a>
+        </div>
+        <div class="product-grid">
+            @foreach (var product in Model.NewProducts)
+            {
+                <partial name="_ProductCard" model="product" />
+            }
+        </div>
+    </div>
+</section>
+
+<section class="promo-banner">
+    <div class="container">
+        <div class="promo-content">
+            <h2>خصم 20% على أول طلب</h2>
+            <p>سجّلي حساباً جديداً واستمتعي بعروض حصرية</p>
+            <a asp-page="/Account/Register" class="btn btn-light">سجّلي الآن</a>
+        </div>
+    </div>
+</section>

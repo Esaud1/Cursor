@@ -1,0 +1,14 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## Uploads
+**/wwwroot/uploads/
+
+## IDE / OS
+.idea/
+.DS_Store
+Thumbs.db

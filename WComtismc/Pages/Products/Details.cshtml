@@ -1,0 +1,78 @@
+@page "{id:guid}"
+@model WComtismc.Pages.Products.DetailsModel
+@{
+    ViewData["Title"] = Model.Product.NameAr;
+}
+
+<div class="container store-page">
+    <nav class="breadcrumb-nav">
+        <a asp-page="/Index">الرئيسية</a> /
+        <a asp-page="/Products/Index">المتجر</a> /
+        <a asp-page="/Products/Index" asp-route-category="@Model.Product.Category">@Model.Product.Category</a> /
+        <span>@Model.Product.NameAr</span>
+    </nav>
+
+    <div class="product-details">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="product-details-image">
+                    <img src="@Model.Product.ImageUrl" alt="@Model.Product.NameAr" />
+                    @if (Model.Product.DiscountPercent > 0)
+                    {
+                        <span class="product-badge product-badge-sale">-@Model.Product.DiscountPercent%</span>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <span class="product-brand">@Model.Product.Brand</span>
+                <h1 class="product-details-title">@Model.Product.NameAr</h1>
+                <div class="product-rating mb-3">
+                    <span class="stars">★★★★★</span>
+                    <span>@Model.Product.Rating.ToString("0.0") / 5</span>
+                </div>
+                <div class="product-price-row mb-3">
+                    <span class="product-price product-price-lg">@Model.Product.Price.ToString("0.##") ر.س</span>
+                    @if (Model.Product.OldPrice is > 0)
+                    {
+                        <span class="product-old-price">@Model.Product.OldPrice.Value.ToString("0.##") ر.س</span>
+                    }
+                </div>
+                <p class="product-details-desc">@Model.Product.Description</p>
+                <ul class="product-meta-list">
+                    <li><strong>التصنيف:</strong> @Model.Product.Category</li>
+                    <li><strong>الماركة:</strong> @Model.Product.Brand</li>
+                    <li><strong>المتوفر:</strong> @(Model.Product.Stock > 0 ? $"{Model.Product.Stock} قطعة" : "غير متوفر")</li>
+                </ul>
+
+                @if (Model.Product.Stock > 0)
+                {
+                    <form method="post" asp-page-handler="AddToCart" class="add-to-cart-form">
+                        <input type="hidden" name="id" value="@Model.Product.Id" />
+                        <div class="quantity-selector">
+                            <label>الكمية:</label>
+                            <input type="number" name="quantity" value="1" min="1" max="@Model.Product.Stock" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-store btn-lg w-100">أضف إلى السلة 🛒</button>
+                    </form>
+                }
+                else
+                {
+                    <button class="btn btn-secondary btn-lg w-100" disabled>نفدت الكمية</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (Model.RelatedProducts.Count > 0)
+    {
+        <section class="related-products mt-5">
+            <h2 class="section-heading">منتجات مشابهة</h2>
+            <div class="product-grid">
+                @foreach (var product in Model.RelatedProducts)
+                {
+                    <partial name="_ProductCard" model="product" />
+                }
+            </div>
+        </section>
+    }
+</div>

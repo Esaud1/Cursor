@@ -1,0 +1,80 @@
+@page
+@model WComtismc.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = string.IsNullOrEmpty(Model.Category) ? "المتجر" : Model.Category;
+}
+
+<div class="container store-page">
+    <div class="page-header-store">
+        <h1 class="page-title-store">@ViewData["Title"]</h1>
+        <p class="page-subtitle-store">@Model.Products.Count منتج</p>
+    </div>
+
+    <div class="row g-4">
+        <aside class="col-lg-3">
+            <div class="filter-card">
+                <h3 class="filter-title">التصنيفات</h3>
+                <ul class="filter-list">
+                    <li>
+                        <a asp-page="/Products/Index" asp-route-q="@Model.Query" asp-route-sort="@Model.Sort"
+                           class="@(string.IsNullOrEmpty(Model.Category) ? "active" : "")">الكل</a>
+                    </li>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li>
+                            <a asp-page="/Products/Index" asp-route-category="@category" asp-route-q="@Model.Query" asp-route-sort="@Model.Sort"
+                               class="@(Model.Category == category ? "active" : "")">@category</a>
+                        </li>
+                    }
+                </ul>
+
+                <h3 class="filter-title mt-4">الترتيب</h3>
+                <form method="get" class="sort-form">
+                    @if (!string.IsNullOrEmpty(Model.Query))
+                    {
+                        <input type="hidden" name="q" value="@Model.Query" />
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Category))
+                    {
+                        <input type="hidden" name="category" value="@Model.Category" />
+                    }
+                    <select name="sort" class="form-select" onchange="this.form.submit()">
+                        <option value="featured" selected="@(Model.Sort == "featured" ? "selected" : null)">مميز</option>
+                        <option value="newest" selected="@(Model.Sort == "newest" ? "selected" : null)">الأحدث</option>
+                        <option value="price-asc" selected="@(Model.Sort == "price-asc" ? "selected" : null)">السعر: الأقل</option>
+                        <option value="price-desc" selected="@(Model.Sort == "price-desc" ? "selected" : null)">السعر: الأعلى</option>
+                        <option value="rating" selected="@(Model.Sort == "rating" ? "selected" : null)">التقييم</option>
+                    </select>
+                </form>
+            </div>
+        </aside>
+
+        <div class="col-lg-9">
+            <form method="get" class="store-search-mobile mb-3 d-lg-none">
+                <input type="text" name="q" value="@Model.Query" placeholder="ابحث..." class="form-control" />
+                @if (!string.IsNullOrEmpty(Model.Category))
+                {
+                    <input type="hidden" name="category" value="@Model.Category" />
+                }
+                <button type="submit" class="btn btn-store">بحث</button>
+            </form>
+
+            @if (Model.Products.Count == 0)
+            {
+                <div class="empty-state">
+                    <p>لا توجد منتجات مطابقة لبحثك.</p>
+                    <a asp-page="/Products/Index" class="btn btn-store">عرض جميع المنتجات</a>
+                </div>
+            }
+            else
+            {
+                <div class="product-grid">
+                    @foreach (var product in Model.Products)
+                    {
+                        <partial name="_ProductCard" model="product" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+@page
+@model WComtismc.Pages.Checkout.IndexModel
+@inject WComtismc.Services.ICartService CartService
+@{
+    ViewData["Title"] = "إتمام الشراء";
+    var items = CartService.GetItems();
+}
+
+<div class="container store-page">
+    <h1 class="page-title-store">إتمام الشراء</h1>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <form method="post" class="checkout-form">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="checkout-card">
+                    <h3>معلومات الشحن</h3>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Input.FullName" class="form-label"></label>
+                            <input asp-for="Input.FullName" class="form-control" />
+                            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Input.Email" class="form-label"></label>
+                            <input asp-for="Input.Email" class="form-control" dir="ltr" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Input.Phone" class="form-label"></label>
+                            <input asp-for="Input.Phone" class="form-control" dir="ltr" />
+                            <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Input.Address" class="form-label"></label>
+                            <input asp-for="Input.Address" class="form-control" />
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Input.City" class="form-label"></label>
+                            <input asp-for="Input.City" class="form-control" />
+                            <span asp-validation-for="Input.City" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-card">
+                    <h3>طريقة الدفع</h3>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" asp-for="Input.PaymentMethod" value="cod" checked />
+                            <span>الدفع عند الاستلام</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" asp-for="Input.PaymentMethod" value="card" />
+                            <span>بطاقة ائتمان / مدى</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" asp-for="Input.PaymentMethod" value="applepay" />
+                            <span>Apple Pay</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-store btn-lg w-100">تأكيد الطلب</button>
+            </form>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="order-summary-card">
+                <h3>طلبك (@items.Count منتج)</h3>
+                @foreach (var item in items)
+                {
+                    <div class="checkout-item">
+                        <img src="@item.ImageUrl" alt="@item.Name" />
+                        <div>
+                            <div class="checkout-item-name">@item.Name</div>
+                            <div class="checkout-item-qty">× @item.Quantity</div>
+                        </div>
+                        <span>@item.Total.ToString("0.##") ر.س</span>
+                    </div>
+                }
+                <hr />
+                <div class="summary-row">
+                    <span>المجموع</span>
+                    <span>@Model.Subtotal.ToString("0.##") ر.س</span>
+                </div>
+                <div class="summary-row">
+                    <span>الشحن</span>
+                    <span>@(Model.Shipping == 0 ? "مجاني" : $"{Model.Shipping:0.##} ر.س")</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>الإجمالي</span>
+                    <span>@Model.Total.ToString("0.##") ر.س</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

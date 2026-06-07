@@ -1,0 +1,51 @@
+@page "{id:guid}"
+@model WComtismc.Pages.Orders.ConfirmationModel
+@using WComtismc.Helpers
+@{
+    ViewData["Title"] = "تأكيد الطلب";
+}
+
+<div class="container store-page">
+    <div class="confirmation-card">
+        <div class="confirmation-icon">✓</div>
+        <h1>شكراً لطلبك!</h1>
+        <p class="confirmation-subtitle">تم استلام طلبك بنجاح وسيتم تجهيزه قريباً</p>
+
+        <div class="confirmation-details">
+            <div class="confirmation-row">
+                <span>رقم الطلب</span>
+                <strong dir="ltr">#@Model.Order.Id.ToString()[..8].ToUpper()</strong>
+            </div>
+            <div class="confirmation-row">
+                <span>الحالة</span>
+                <span class="order-status-badge">@StoreLabels.GetStatusLabel(Model.Order.Status)</span>
+            </div>
+            <div class="confirmation-row">
+                <span>الإجمالي</span>
+                <strong>@Model.Order.Total.ToString("0.##") ر.س</strong>
+            </div>
+            <div class="confirmation-row">
+                <span>طريقة الدفع</span>
+                <span>@StoreLabels.GetPaymentLabel(Model.Order.PaymentMethod)</span>
+            </div>
+            <div class="confirmation-row">
+                <span>الشحن إلى</span>
+                <span>@Model.Order.City — @Model.Order.Address</span>
+            </div>
+        </div>
+
+        <h3 class="mt-4">تفاصيل المنتجات</h3>
+        @foreach (var item in Model.Order.Items)
+        {
+            <div class="confirmation-item">
+                <span>@item.Name × @item.Quantity</span>
+                <span>@item.Total.ToString("0.##") ر.س</span>
+            </div>
+        }
+
+        <div class="confirmation-actions mt-4">
+            <a asp-page="/Orders/MyOrders" class="btn btn-store">طلباتي</a>
+            <a asp-page="/Products/Index" class="btn btn-outline-store">متابعة التسوق</a>
+        </div>
+    </div>
+</div>
