@@ -4,7 +4,7 @@
 
 ---
 
-## 🛍️ W Comtismc — متجر التجميل (المتجر الإلكتروني)
+## 🛍️ W Cosmatic — متجر التجميل (المتجر الإلكتروني)
 
 ```bash
 cd WComtismc
@@ -42,5 +42,5 @@ dotnet run --urls "http://localhost:5001"
 
 | المشروع | المجلد | الرابط |
 |---------|--------|--------|
-| **المتجر** W Comtismc | `WComtismc/` | http://localhost:5000 |
+| **المتجر** W Cosmatic | `WComtismc/` | http://localhost:5000 |
 | **نظام الجلسات** Enad Web APP | `EnadWebApp/` | http://localhost:5001 |

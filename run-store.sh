@@ -9,7 +9,7 @@ sleep 1
 
 cd "$(dirname "$0")/WComtismc"
 echo ""
-echo "✓ تشغيل متجر W Comtismc"
+echo "✓ تشغيل متجر W Cosmatic"
 echo "✓ الرابط: http://localhost:${PORT}"
 echo ""
 
