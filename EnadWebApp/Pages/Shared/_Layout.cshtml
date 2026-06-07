@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Enad Web APP</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/EnadWebApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow">
+            <div class="container-fluid px-3">
+                <button class="btn btn-outline-light d-lg-none sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas" aria-label="فتح القائمة">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Enad Web APP</a>
+                <ul class="navbar-nav ms-auto flex-row align-items-center gap-1">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item">
+                            <span class="nav-link py-1">@User.Identity.Name</span>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" asp-page="/Account/Logout" class="d-inline">
+                                <button type="submit" class="btn btn-outline-light btn-sm">تسجيل الخروج</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link py-1" asp-area="" asp-page="/Account/Login">تسجيل الدخول</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="app-shell">
+        <partial name="_SidebarNav" />
+
+        <div class="offcanvas offcanvas-start sidebar-offcanvas sidebar-surface d-lg-none" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+            <div class="offcanvas-header sidebar-offcanvas-header">
+                <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">القائمة الرئيسية</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="إغلاق"></button>
+            </div>
+            <div class="offcanvas-body p-0 sidebar-offcanvas-body">
+                <partial name="_SidebarMenuLinks" />
+            </div>
+        </div>
+
+        <main role="main" class="main-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container-fluid px-3">
+            &copy; 2026 - Enad Web APP
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

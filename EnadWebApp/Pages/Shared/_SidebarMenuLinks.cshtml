@@ -1,0 +1,28 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+
+    string IsActive(string page) => currentPage.Equals(page, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+}
+
+<nav class="sidebar-menu">
+    <a class="sidebar-link @IsActive("/Index")" asp-page="/Index">
+        <span class="sidebar-icon">🏠</span>
+        <span>القائمة الرئيسية</span>
+    </a>
+    <a class="sidebar-link @IsActive("/Sessions/Add")" asp-page="/Sessions/Add">
+        <span class="sidebar-icon">➕</span>
+        <span>اضافة جلسة</span>
+    </a>
+    <a class="sidebar-link @IsActive("/Sessions/Active")" asp-page="/Sessions/Active">
+        <span class="sidebar-icon">📋</span>
+        <span>عرض الجلسات القائمة</span>
+    </a>
+    <a class="sidebar-link @IsActive("/Search/Index")" asp-page="/Search/Index">
+        <span class="sidebar-icon">🔍</span>
+        <span>البحث</span>
+    </a>
+    <a class="sidebar-link @IsActive("/Reports/Index")" asp-page="/Reports/Index">
+        <span class="sidebar-icon">📊</span>
+        <span>التقارير</span>
+    </a>
+</nav>

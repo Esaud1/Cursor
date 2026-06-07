@@ -1,0 +1,21 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "الرئيسية";
+}
+
+<div class="page-header">
+    <h1 class="page-title">القائمة الرئيسية</h1>
+    <p class="page-subtitle">Enad Web APP</p>
+</div>
+
+<div class="content-card">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <p class="lead mb-0">مرحباً بعودتك، <strong>@User.Identity.Name</strong>!</p>
+    }
+    else
+    {
+        <p class="lead mb-0">يرجى <a asp-page="/Account/Login">تسجيل الدخول</a> للمتابعة.</p>
+    }
+</div>

@@ -1,0 +1,42 @@
+@page
+@model EnadWebApp.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+    Layout = "_LoginLayout";
+}
+
+<div class="login-page">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">Enad Web APP</h1>
+            <p class="login-subtitle">سجّل الدخول إلى حسابك</p>
+        </div>
+
+        <form method="post" class="login-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="you@example.com" dir="ltr" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="أدخل كلمة المرور" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4 form-check">
+                <input asp-for="Input.RememberMe" class="form-check-input" />
+                <label asp-for="Input.RememberMe" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 login-btn">تسجيل الدخول</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
