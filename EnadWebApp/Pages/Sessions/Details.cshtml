@@ -1,0 +1,124 @@
+@page "{id:guid}"
+@model EnadWebApp.Pages.Sessions.DetailsModel
+@using EnadWebApp.Models
+@{
+    ViewData["Title"] = Model.Session.Title;
+    var statusClass = Model.Session.Status == SessionStatus.Active ? "session-badge-active" : "session-badge-completed";
+    var statusText = Model.Session.Status == SessionStatus.Active ? "قائمة" : "منتهية";
+}
+
+<div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <div>
+        <a asp-page="/Sessions/Active" class="session-back-link">← العودة إلى الجلسات</a>
+        <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+            <h1 class="page-title mb-0">@Model.Session.Title</h1>
+            <span class="session-badge @statusClass">@statusText</span>
+        </div>
+        <p class="page-subtitle">تفاصيل الجلسة</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="content-card session-section">
+            <h2 class="section-title">وصف الجلسة</h2>
+            <p class="mb-0">@Model.Session.Description</p>
+        </div>
+
+        <div class="content-card session-section">
+            <h2 class="section-title">اجندة الجلسة</h2>
+            @if (Model.Session.AgendaItems.Count == 0)
+            {
+                <p class="text-muted mb-0">لا توجد بنود في الأجندة.</p>
+            }
+            else
+            {
+                <div class="agenda-details-list">
+                    @for (var i = 0; i < Model.Session.AgendaItems.Count; i++)
+                    {
+                        var item = Model.Session.AgendaItems[i];
+                        <div class="agenda-details-item">
+                            <span class="agenda-details-number">@((i + 1).ToString())</span>
+                            <div>
+                                <div class="agenda-details-topic">@item.Topic</div>
+                                @if (!string.IsNullOrWhiteSpace(item.Duration))
+                                {
+                                    <div class="agenda-details-duration">المدة: @item.Duration</div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="content-card session-section">
+            <h2 class="section-title">مرفقات الجلسة</h2>
+            @if (Model.Session.Attachments.Count == 0)
+            {
+                <p class="text-muted mb-0">لا توجد مرفقات.</p>
+            }
+            else
+            {
+                <ul class="attachment-list mb-0">
+                    @foreach (var attachment in Model.Session.Attachments)
+                    {
+                        <li class="attachment-item">
+                            <span class="attachment-icon">📎</span>
+                            <div class="attachment-info">
+                                <a href="~/@attachment.RelativePath" target="_blank" class="attachment-name">@attachment.FileName</a>
+                                <span class="attachment-size">@DetailsModel.FormatFileSize(attachment.Size)</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="content-card session-section">
+            <h2 class="section-title">تاريخ الجلسة</h2>
+            <p class="session-detail-value mb-0" dir="ltr">@Model.Session.SessionDate.ToString("yyyy/MM/dd hh:mm tt")</p>
+        </div>
+
+        <div class="content-card session-section">
+            <h2 class="section-title">قائمة الاعضاء</h2>
+            <ul class="detail-list mb-0">
+                @foreach (var member in Model.Session.Members)
+                {
+                    <li>@member.Name</li>
+                }
+            </ul>
+        </div>
+
+        <div class="content-card session-section">
+            <h2 class="section-title">الاشخاص المدعوين</h2>
+            @if (Model.Session.InvitedPeople.Count == 0)
+            {
+                <p class="text-muted mb-0">لا يوجد مدعوون.</p>
+            }
+            else
+            {
+                <ul class="detail-list mb-0">
+                    @foreach (var person in Model.Session.InvitedPeople)
+                    {
+                        <li dir="auto">@person</li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <div class="content-card session-section">
+            <h2 class="section-title">معلومات التسجيل</h2>
+            <div class="session-detail-row">
+                <span class="session-detail-label">تاريخ التسجيل</span>
+                <span class="session-detail-value" dir="ltr">@Model.Session.CreatedAt.ToString("yyyy/MM/dd hh:mm tt")</span>
+            </div>
+            <div class="session-detail-row mb-0">
+                <span class="session-detail-label">رقم الجلسة</span>
+                <span class="session-detail-value session-id" dir="ltr">@Model.Session.Id.ToString()[..8]...</span>
+            </div>
+        </div>
+    </div>
+</div>

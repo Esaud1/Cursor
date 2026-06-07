@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using EnadWebApp.Models;
+using EnadWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,23 +8,30 @@ namespace EnadWebApp.Pages.Sessions;
 
 public class AddModel : PageModel
 {
+    private readonly ISessionStore _sessionStore;
+    private readonly IWebHostEnvironment _environment;
+
+    public AddModel(ISessionStore sessionStore, IWebHostEnvironment environment)
+    {
+        _sessionStore = sessionStore;
+        _environment = environment;
+    }
+
     [BindProperty]
     public SessionInput Input { get; set; } = new();
 
-    public IReadOnlyList<MemberOption> AvailableMembers { get; private set; } = [];
-
-    public bool ShowSuccess { get; private set; }
+    public IReadOnlyList<MemberCatalog.MemberOption> AvailableMembers { get; private set; } = [];
 
     public void OnGet()
     {
-        AvailableMembers = GetMembers();
+        AvailableMembers = MemberCatalog.GetAll();
         Input.SessionDate = DateTime.Now.AddDays(1).Date.AddHours(10);
         Input.AgendaItems.Add(new AgendaItemInput());
     }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
-        AvailableMembers = GetMembers();
+        AvailableMembers = MemberCatalog.GetAll();
 
         Input.AgendaItems = Input.AgendaItems
             .Where(item => !string.IsNullOrWhiteSpace(item.Topic))
@@ -56,21 +65,81 @@ public class AddModel : PageModel
             return Page();
         }
 
-        ShowSuccess = true;
-        return Page();
+        var sessionId = Guid.NewGuid();
+        var members = MemberCatalog.GetByIds(Input.SelectedMembers);
+        var invitedPeople = ParseInvitedPeople(Input.InvitedPeople);
+        var attachments = await SaveAttachmentsAsync(sessionId, Input.Attachments);
+
+        var session = new SessionRecord
+        {
+            Id = sessionId,
+            Title = Input.Title.Trim(),
+            Description = Input.Description.Trim(),
+            SessionDate = Input.SessionDate,
+            CreatedAt = DateTime.Now,
+            Members = members.Select(member => new SessionMember
+            {
+                Id = member.Id,
+                Name = member.Name
+            }).ToList(),
+            InvitedPeople = invitedPeople,
+            AgendaItems = Input.AgendaItems.Select(item => new SessionAgendaItem
+            {
+                Topic = item.Topic.Trim(),
+                Duration = item.Duration?.Trim()
+            }).ToList(),
+            Attachments = attachments
+        };
+
+        _sessionStore.Add(session);
+
+        return RedirectToPage("/Sessions/Details", new { id = sessionId });
     }
 
-    private static IReadOnlyList<MemberOption> GetMembers() =>
-    [
-        new("1", "أحمد محمد العلي"),
-        new("2", "سارة خالد الحربي"),
-        new("3", "فهد عبدالله القحطاني"),
-        new("4", "نورة سعد الدوسري"),
-        new("5", "محمد علي الشمري"),
-        new("6", "ريم يوسف الزهراني")
-    ];
+    private static List<string> ParseInvitedPeople(string? invitedPeople)
+    {
+        if (string.IsNullOrWhiteSpace(invitedPeople))
+        {
+            return [];
+        }
 
-    public record MemberOption(string Id, string Name);
+        return invitedPeople
+            .Split(['\r', '\n', ',', ';'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Distinct()
+            .ToList();
+    }
+
+    private async Task<List<SessionAttachment>> SaveAttachmentsAsync(Guid sessionId, List<IFormFile>? files)
+    {
+        if (files == null || files.Count == 0)
+        {
+            return [];
+        }
+
+        var uploadsRoot = Path.Combine(_environment.WebRootPath, "uploads", "sessions", sessionId.ToString());
+        Directory.CreateDirectory(uploadsRoot);
+
+        var attachments = new List<SessionAttachment>();
+
+        foreach (var file in files.Where(file => file.Length > 0))
+        {
+            var safeFileName = Path.GetFileName(file.FileName);
+            var storedFileName = $"{Guid.NewGuid():N}_{safeFileName}";
+            var fullPath = Path.Combine(uploadsRoot, storedFileName);
+
+            await using var stream = System.IO.File.Create(fullPath);
+            await file.CopyToAsync(stream);
+
+            attachments.Add(new SessionAttachment
+            {
+                FileName = safeFileName,
+                RelativePath = Path.Combine("uploads", "sessions", sessionId.ToString(), storedFileName).Replace('\\', '/'),
+                Size = file.Length
+            });
+        }
+
+        return attachments;
+    }
 
     public class SessionInput
     {

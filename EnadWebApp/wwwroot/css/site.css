@@ -416,3 +416,256 @@ a:hover {
   border: 1px solid rgba(46, 125, 50, 0.25);
   margin-bottom: 1.25rem;
 }
+
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.session-card {
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.session-card:hover {
+  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.14);
+  transform: translateY(-1px);
+}
+
+.session-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.session-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a3d1f;
+  margin: 0.5rem 0 0;
+}
+
+.session-card-description {
+  color: #555;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.session-card-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  padding: 0.85rem;
+  background: var(--enad-off-white);
+  border-radius: 8px;
+  margin-bottom: 0.85rem;
+}
+
+.session-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.session-meta-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.session-meta-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.session-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(46, 125, 50, 0.1);
+}
+
+.session-enter-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--enad-green);
+}
+
+.session-enter-link:hover {
+  color: var(--enad-green-dark);
+  text-decoration: underline;
+}
+
+.session-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+}
+
+.session-badge-active {
+  background: rgba(46, 125, 50, 0.15);
+  color: var(--enad-green-dark);
+}
+
+.session-badge-completed {
+  background: rgba(108, 117, 125, 0.15);
+  color: #495057;
+}
+
+.sessions-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.sessions-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.sessions-empty-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--enad-green);
+  margin-bottom: 0.5rem;
+}
+
+.session-back-link {
+  display: inline-block;
+  color: var(--enad-green);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.session-back-link:hover {
+  color: var(--enad-green-dark);
+  text-decoration: underline;
+}
+
+.agenda-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.agenda-details-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem;
+  background: var(--enad-off-white);
+  border-radius: 8px;
+  border: 1px solid rgba(46, 125, 50, 0.1);
+}
+
+.agenda-details-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--enad-green);
+  color: var(--enad-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.agenda-details-topic {
+  font-weight: 600;
+  color: #333;
+}
+
+.agenda-details-duration {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.15rem;
+}
+
+.detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(46, 125, 50, 0.08);
+}
+
+.detail-list li:last-child {
+  border-bottom: none;
+}
+
+.attachment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(46, 125, 50, 0.08);
+}
+
+.attachment-item:last-child {
+  border-bottom: none;
+}
+
+.attachment-icon {
+  font-size: 1.25rem;
+}
+
+.attachment-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.attachment-name {
+  font-weight: 600;
+  color: var(--enad-green);
+  text-decoration: none;
+}
+
+.attachment-name:hover {
+  text-decoration: underline;
+}
+
+.attachment-size {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.session-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(46, 125, 50, 0.08);
+}
+
+.session-detail-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.session-detail-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.session-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+}

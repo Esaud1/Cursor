@@ -9,13 +9,6 @@
     <p class="page-subtitle">إنشاء جلسة جديدة وتحديد تفاصيلها</p>
 </div>
 
-@if (Model.ShowSuccess)
-{
-    <div class="alert alert-success session-alert" role="alert">
-        تم حفظ بيانات الجلسة بنجاح.
-    </div>
-}
-
 <form method="post" enctype="multipart/form-data" class="session-form" id="sessionForm">
     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 

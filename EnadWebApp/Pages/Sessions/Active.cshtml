@@ -1,14 +1,74 @@
 @page
 @model EnadWebApp.Pages.Sessions.ActiveModel
+@using EnadWebApp.Models
 @{
     ViewData["Title"] = "عرض الجلسات القائمة";
 }
 
-<div class="page-header">
-    <h1 class="page-title">عرض الجلسات القائمة</h1>
-    <p class="page-subtitle">الجلسات النشطة حالياً</p>
+<div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <div>
+        <h1 class="page-title">عرض الجلسات القائمة</h1>
+        <p class="page-subtitle">جميع الجلسات المسجلة في النظام</p>
+    </div>
+    <a asp-page="/Sessions/Add" class="btn btn-primary">+ اضافة جلسة</a>
 </div>
 
-<div class="content-card">
-    <p class="text-muted mb-0">لا توجد جلسات قائمة حالياً.</p>
-</div>
+@if (Model.Sessions.Count == 0)
+{
+    <div class="content-card sessions-empty">
+        <div class="sessions-empty-icon">📋</div>
+        <h2 class="sessions-empty-title">لا توجد جلسات مسجلة</h2>
+        <p class="text-muted mb-3">ابدأ بإنشاء جلسة جديدة لعرضها هنا.</p>
+        <a asp-page="/Sessions/Add" class="btn btn-primary">اضافة جلسة</a>
+    </div>
+}
+else
+{
+    <div class="sessions-list">
+        @foreach (var session in Model.Sessions)
+        {
+            var statusClass = session.Status == SessionStatus.Active ? "session-badge-active" : "session-badge-completed";
+            var statusText = session.Status == SessionStatus.Active ? "قائمة" : "منتهية";
+
+            <div class="content-card session-card">
+                <div class="session-card-header">
+                    <div>
+                        <span class="session-badge @statusClass">@statusText</span>
+                        <h2 class="session-card-title">@session.Title</h2>
+                    </div>
+                    <a asp-page="/Sessions/Details" asp-route-id="@session.Id" class="btn btn-outline-primary btn-sm">
+                        عرض التفاصيل
+                    </a>
+                </div>
+
+                <p class="session-card-description">@session.Description</p>
+
+                <div class="session-card-meta">
+                    <div class="session-meta-item">
+                        <span class="session-meta-label">تاريخ الجلسة</span>
+                        <span class="session-meta-value" dir="ltr">@session.SessionDate.ToString("yyyy/MM/dd hh:mm tt")</span>
+                    </div>
+                    <div class="session-meta-item">
+                        <span class="session-meta-label">الأعضاء</span>
+                        <span class="session-meta-value">@session.Members.Count عضو</span>
+                    </div>
+                    <div class="session-meta-item">
+                        <span class="session-meta-label">بنود الأجندة</span>
+                        <span class="session-meta-value">@session.AgendaItems.Count بند</span>
+                    </div>
+                    <div class="session-meta-item">
+                        <span class="session-meta-label">المرفقات</span>
+                        <span class="session-meta-value">@session.Attachments.Count ملف</span>
+                    </div>
+                </div>
+
+                <div class="session-card-footer">
+                    <span class="text-muted small">تاريخ التسجيل: <span dir="ltr">@session.CreatedAt.ToString("yyyy/MM/dd")</span></span>
+                    <a asp-page="/Sessions/Details" asp-route-id="@session.Id" class="session-enter-link">
+                        الدخول إلى الجلسة ←
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
