@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+set -e
+
+PORT=5000
+
+echo "إيقاف أي تطبيق يعمل على المنفذ $PORT..."
+fuser -k "${PORT}/tcp" 2>/dev/null || true
+sleep 1
+
 cd "$(dirname "$0")/WComtismc"
-echo "تشغيل متجر W Comtismc على http://localhost:5000"
-dotnet run --urls "http://localhost:5000"
+echo ""
+echo "✓ تشغيل متجر W Comtismc"
+echo "✓ الرابط: http://localhost:${PORT}"
+echo ""
+
+dotnet run --urls "http://localhost:${PORT}"
