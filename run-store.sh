@@ -9,8 +9,9 @@ sleep 1
 
 cd "$(dirname "$0")/WComtismc"
 echo ""
-echo "✓ تشغيل متجر W Cosmatic"
+echo "✓ بناء وتشغيل متجر W Cosmatic"
 echo "✓ الرابط: http://localhost:${PORT}"
 echo ""
 
-dotnet run --urls "http://localhost:${PORT}"
+dotnet build -v q
+dotnet run --no-build --urls "http://localhost:${PORT}"
